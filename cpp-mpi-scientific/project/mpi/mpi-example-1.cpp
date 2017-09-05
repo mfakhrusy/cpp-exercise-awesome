@@ -7,7 +7,7 @@ int main(int argc, char ** argv) {
 	int sum, startval, endval, accum;
 	MPI_Status status;
 
-	MPI_Init(argc, argv);
+	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &totalnodes);
 	MPI_Comm_rank(MPI_COMM_WORLD, &mynode);
 
@@ -20,7 +20,17 @@ int main(int argc, char ** argv) {
 	}
 
 	if (mynode != 0) {
-		//HAVE NOT FINISHED LOL GOING HOME BB
+		std::cout << mynode << std::endl;
+		MPI_Send(&sum, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
+	} else {
+		for (int j = 1; j < totalnodes; j++) {
+			MPI_Recv(&accum, 1, MPI_INT, j, 1, MPI_COMM_WORLD, &status);
+			sum = sum + accum;
+		}
 	}
-	std::cout << "The sum from 1 to 1000 is: " << sum << std::endl;
+	if (mynode == 0) {
+		std::cout << "The sum from 1 to 1000 is: " << sum << std::endl;
+	}
+
+	MPI_Finalize();
 }
