@@ -9,6 +9,11 @@ class HeartRates {
 		unsigned int birth_month;
 		unsigned int birth_year;
 
+		// just some functions for easiness
+		unsigned int calc_day( unsigned int day,
+			   unsigned int month,
+			   unsigned int year);
+
 	public:
 		HeartRates( std::string first_name,
 				std::string last_name,
@@ -22,7 +27,9 @@ class HeartRates {
 		int getBirthDay() const;
 		int getBirthMonth() const;
 		int getBirthYear() const;
-		int getAge() const;
+		unsigned int getAge(unsigned int current_day,
+				unsigned int current_month,
+				unsigned int current_year) const;
 		int getMaximumHeartRate() const;
 		int getTargetHeartRate() const;
 

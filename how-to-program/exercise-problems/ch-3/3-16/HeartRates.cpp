@@ -1,6 +1,5 @@
 // implementation of HeartRates class
 #include "HeartRates.hpp"
-#include <string>
 #include <iostream>
 
 // constructor
@@ -156,6 +155,23 @@ int HeartRates::getBirthDay() const {
 	return birth_day;
 }
 
+// getAge() -> calculate age of user
+unsigned int HeartRates::getAge(unsigned int current_day,
+		unsigned int current_month,
+		unsigned int current_year) const {
+
+	// to get the user's age, we need to convert the difference in time
+	// to just its days. After that, convert it back to age
+	
+	// set up local var for birth day, month, and year
+	unsigned int temp_birth_day = getBirthDay();
+	unsigned int temp_birth_month = getBirthMonth();
+	unsigned int temp_birth_year = getBirthYear();
+
+	// convert temp birth day, month, and day to just day
+
+}
+
 // display the information
 void HeartRates::displayInfo() const {
 
@@ -164,4 +180,29 @@ void HeartRates::displayInfo() const {
 	std::cout << getBirthDay() << "/";
 	std::cout << getBirthMonth() << "/";
 	std::cout << getBirthYear() << std::endl;
+}
+
+
+// functions etc etc for easiness
+unsigned int HeartRates::calc_day( unsigned int day,
+		unsigned int month,
+		unsigned int year) {
+	
+	// year value -> start from 1900!
+	unsigned int temp_year = year - 1900;
+	// check number of year it is divisible by 4:
+	unsigned int year_div_by_4 = static_cast<int>(temp_year / 4); // integer division -> floor
+	// check number of year it is not divisible by 4:
+	unsigned int year_not_div_by_4 = temp_year - year_div_by_4;
+
+	// calc total_day_year;
+	int total_day_year = year_div_by_4 * 366 + year_not_div_by_4 * 365;
+	
+	// month_value
+	unsigned int total_day_month = 0;
+
+	// day value
+	unsigned int total_day_day = day;
+
+	return total_day_year + total_day_month + total_day_day;
 }
