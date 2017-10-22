@@ -44,7 +44,7 @@ void HeartRates::setBirthDay( unsigned int day ) {
 			if ( day >= 1 && day <= 31) {
 				birth_day = day;
 			} else {
-					std::cout << "your date of " << day << " is not appropriate for year of " << getBirthYear() << " and month of " << getBirthMonth() << ", please input another one: ";
+					std::cout << "your birth date of " << day << " is not appropriate for year of " << getBirthYear() << " and month of " << getBirthMonth() << ", please input another one: ";
 					std::cin >> day;
 
 					// recursive checking until make sense
@@ -158,51 +158,56 @@ int HeartRates::getBirthDay() const {
 // getAge() -> calculate age of user
 unsigned int HeartRates::getAge(unsigned int current_day,
 		unsigned int current_month,
-		unsigned int current_year) const {
+		unsigned int current_year) {
 
 	// to get the user's age, we need to convert the difference in time
 	// to just its days. After that, convert it back to age
 	
 	// set up local var for birth day, month, and year
-	unsigned int temp_birth_day = getBirthDay();
-	unsigned int temp_birth_month = getBirthMonth();
-	unsigned int temp_birth_year = getBirthYear();
+	unsigned int birth_day = getBirthDay();
+	unsigned int birth_month = getBirthMonth();
+	unsigned int birth_year = getBirthYear();
 
-	// convert temp birth day, month, and day to just day
+	// simple algorithm for calculating age
+	int age = current_year - birth_year;
 
+	// check if current_month < birth_month
+	if ( current_month < birth_month ) {
+		return ( age - 1 );
+	} else if ( current_month > birth_month ) {
+		return ( age );
+	} else { // current_month == birth_month
+		return ( current_day > birth_day ) ? age : age - 1;
+		}
+}
+
+// getMaximumHeartRate function defined here
+unsigned int HeartRates::getMaximumHeartRate(unsigned int age) const {
+	return CONST_MAX_HEART_RATE - age;
+}
+
+unsigned int HeartRates::getTargetHeartRate(unsigned int maxHeartRate) const {
+	return 0.65 * maxHeartRate;
 }
 
 // display the information
-void HeartRates::displayInfo() const {
+void HeartRates::displayInfo() {
 
+	// needed for getAge()
+	unsigned int current_day;
+	unsigned int current_month;
+	unsigned int current_year;
+	std::cout << "Input current time with date, month, and year with space delimiter: ";
+	std::cin >> current_day >> current_month >> current_year;
+
+	// display information
 	std::cout << getFirstName() << " ";
 	std::cout << getLastName() << ", ";
 	std::cout << getBirthDay() << "/";
 	std::cout << getBirthMonth() << "/";
 	std::cout << getBirthYear() << std::endl;
-}
-
-
-// functions etc etc for easiness
-unsigned int HeartRates::calc_day( unsigned int day,
-		unsigned int month,
-		unsigned int year) {
-	
-	// year value -> start from 1900!
-	unsigned int temp_year = year - 1900;
-	// check number of year it is divisible by 4:
-	unsigned int year_div_by_4 = static_cast<int>(temp_year / 4); // integer division -> floor
-	// check number of year it is not divisible by 4:
-	unsigned int year_not_div_by_4 = temp_year - year_div_by_4;
-
-	// calc total_day_year;
-	int total_day_year = year_div_by_4 * 366 + year_not_div_by_4 * 365;
-	
-	// month_value
-	unsigned int total_day_month = 0;
-
-	// day value
-	unsigned int total_day_day = day;
-
-	return total_day_year + total_day_month + total_day_day;
+	unsigned int age = getAge(current_day, current_month, current_year);
+	std::cout << getFirstName() << " " << getLastName() << " age is: " << age << std::endl;
+	std::cout << getFirstName() << " " << getLastName() << " max heart rate is: " << getMaximumHeartRate(age) << std::endl;
+	std::cout << getFirstName() << " " << getLastName() << " average heart rate is: " << getTargetHeartRate(getMaximumHeartRate(age)) << std::endl;
 }

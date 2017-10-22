@@ -3,6 +3,8 @@
 
 class HeartRates {
 	private:
+		unsigned int CONST_MAX_HEART_RATE = 220;
+
 		std::string first_name;
 		std::string last_name;
 		unsigned int birth_day;
@@ -29,9 +31,9 @@ class HeartRates {
 		int getBirthYear() const;
 		unsigned int getAge(unsigned int current_day,
 				unsigned int current_month,
-				unsigned int current_year) const;
-		int getMaximumHeartRate() const;
-		int getTargetHeartRate() const;
+				unsigned int current_year);
+		unsigned int getMaximumHeartRate(unsigned int age) const;
+		unsigned int getTargetHeartRate(unsigned int maxHeartRate) const;
 
 		// set functions
 		void setFirstName( std::string );
@@ -41,5 +43,5 @@ class HeartRates {
 		void setBirthYear( unsigned int );
 
 		// display info function
-		void displayInfo() const;
+		void displayInfo();
 };
