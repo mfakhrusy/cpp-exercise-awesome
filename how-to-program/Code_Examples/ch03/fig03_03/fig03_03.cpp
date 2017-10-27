@@ -24,7 +24,7 @@ int main()
    GradeBook myGradeBook; // create a GradeBook object named myGradeBook
    
    // prompt for and input course name
-   cout << "Please enter the course name:" << endl;
+   cout << "Please enter the course name: ";
    getline( cin, nameOfCourse ); // read a course name with blanks
    cout << endl; // output a blank line
 
