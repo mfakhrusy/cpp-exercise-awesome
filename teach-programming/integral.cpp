@@ -109,6 +109,12 @@ double IntegralCalculation::calcIntegralRightRiemann() {
 double IntegralCalculation::calcIntegralTrapezoid() {
 	double result = 0;
 	int max_grid = max_grid_point - 1;
+
+	// append first and last y to result
+	result += (y[0] * (x[1] - x[0]);
+	result += y[max_grid_point - 1] * ();
+
+	// append the rest
 	for (auto i = 0; i < max_grid; i++) {
 		// calc delta_x
 		double delta_x = x[i + 1] - x[i];
