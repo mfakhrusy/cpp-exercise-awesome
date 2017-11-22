@@ -31,9 +31,13 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 
 		// resize the vector
 		oilPotencyMap.resize(oilMapRow);
+		mapRentData.resize(oilMapRow);
 		for (size_t i = 0; i < oilPotencyMap.size(); i++) {
 			oilPotencyMap[i].resize(oilMapCol);
+			mapRentData[i].resize(oilMapCol);
 		}
+
+
 
 		// read the oil potency map
 		for (size_t i = 0; i < oilMapRow; i++) {
@@ -73,10 +77,20 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 		std::getline(inputFileStream, oilRentSizeString);
 		oilRentSize = std::stoi(oilRentSizeString);
 
+		// read each company
+		for (size_t i = 0; i < oilRentSize; i++) {
+			std::string mapDataString;
+			std::getline(inputFileStream, mapDataString);
+			
+			std::istringstream issRentData(mapDataString);
+
+		}
 
 	} else {
 		std::cout << "Input filenameRent wrong!" << std::endl;
 	}
+
+	inputFileStream.close();
 }
 
 // print function for map

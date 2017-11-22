@@ -16,11 +16,18 @@ class OilRent {
 		void printOilRent();
 	private:
 
-		std::vector<std::vector<int>> oilPotencyMap;
-		std::vector<std::vector<std::string>> oilMapRented;
-		std::array<int, 2> oilMapSize;
-		std::vector<std::vector<std::string>> companyOilMap;
+		// struct
+		struct RentData {
+			std::string companyName;
+		 	std::string companyType;
+			unsigned int week;
+		};
 
+		std::vector<std::vector<RentData>> mapRentData;
+
+		std::vector<std::vector<int>> oilPotencyMap;
+		std::array<int, 2> oilMapSize;
 		unsigned int oilRentSize;
 
+		//misc function
 };
