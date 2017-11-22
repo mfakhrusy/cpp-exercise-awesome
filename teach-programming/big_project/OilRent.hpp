@@ -9,16 +9,18 @@ class OilRent {
 		// default constructor
 		OilRent();
 		// constructor
-		explicit OilRent( std::string );
+		OilRent( std::string, std::string );
 
 		// method
 		void printOilMap();
-
-		std::vector<std::vector<int>> oilPotencyMap;
+		void printOilRent();
 	private:
 
+		std::vector<std::vector<int>> oilPotencyMap;
+		std::vector<std::vector<std::string>> oilMapRented;
 		std::array<int, 2> oilMapSize;
 		std::vector<std::vector<std::string>> companyOilMap;
-		
+
+		unsigned int oilRentSize;
 
 };

@@ -3,8 +3,8 @@ HDRS = OilRent.hpp
 
 CC = g++
 DEBUG = -g
-CFLAGS = -Wall -c $(DEBUG)
-LFLAGS = -Wall $(DEBUG)
+CFLAGS = -Wall -std=c++11 -c $(DEBUG)
+LFLAGS = -Wall -std=c++11 $(DEBUG)
 EXEC = project
 
 all : $(OBJS)

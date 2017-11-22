@@ -32,14 +32,16 @@ int main() {
 
 		// print menu
 		std::cout << "-- MENU --" << std::endl;
-		for (auto i = 1; i < MENUCOUNT; i++) {
-			std::cout << i << "\t" << menuChoice[i] << std::endl;
+		for (size_t i = 1; i < MENUCOUNT; i++) {
+			std::cout << i << ".\t" << menuChoice[i] << std::endl;
 		}
-		std::cout << "0\t" << menuChoice[0] << std::endl;
+		std::cout << "0.\t" << menuChoice[0] << std::endl;
 		
 		int menuInput = 0;
+		std::cout << "Pilihan : ";
 		std::cin >> menuInput;
-		std::string filename;
+		std::string mapFileName;
+		std::string rentFileName;
 
 		if ( menuInput == 0 ) {
 		
@@ -49,22 +51,30 @@ int main() {
 		} else if ( menuInput == 1) {
 
 			// construct the OilRent class here
-			std::cout << "\nMasukkan nama file: ";
-			std::cin >> filename;
+			std::cout << "\nMasukkan nama file peta: ";
+			std::cin >> mapFileName;
+
+			std::cout << "\nMasukkan nama file data sewa: ";
+			std::cin >> rentFileName;
 
 			// call constructor
-			OilRent oil(filename);
+			OilRent oil(mapFileName, rentFileName);
 			
 			// copy constructor to tempOil;
 			tempOil = oil;
 			
-		} else if ( menuInput == 2) {
+		} else if ( menuInput == 2 ) {
 		
-		} else if ( menuInput == 3) {
+		} else if ( menuInput == 3 ) {
 
 			// print the data
 			tempOil.printOilMap();
 		
+		
+		} else if ( menuInput == 4 ) {
+
+			tempOil.printOilRent();
+			
 		} else {
 			std::cout << "Input Wrong!" << std::endl;
 		}
