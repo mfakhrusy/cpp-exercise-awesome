@@ -21,7 +21,7 @@ class OilRent {
 		unsigned int oilRentSize;
 
 		//misc function
-		RentData addRentData(std::vector<std::vector<RentData>>);
+		std::vector<std::vector<OilRent::RentData>> addRentData(std::vector<std::vector<OilRent::RentData>>);
 
 	public:
 

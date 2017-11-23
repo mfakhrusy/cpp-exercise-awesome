@@ -225,7 +225,7 @@ void OilRent::saveOilInfo(std::string outputFileName) {
 }
 
 // for add data to mapRentData
-std::vector<std::vector<RentData>> OilRent::addRentData(std::vector<std::vector<RentData>> mapRentData) {
+std::vector<std::vector<OilRent::RentData>> OilRent::addRentData(std::vector<std::vector<OilRent::RentData>> mapRentData) {
 
 	std::cout << std::endl;
 	std::cout << "-- Tambah Penyewaan --" << std::endl;
@@ -251,15 +251,21 @@ std::vector<std::vector<RentData>> OilRent::addRentData(std::vector<std::vector<
 
 	// input to our mapRentData object
 	// first, check if the col and row whether it exist already
-	// if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
-	// 	std::cout << "DATA EXIST!!!" ;
-	// } 
+	if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
+		std::cout << "Penyewaan gagal! Area sudah disewa!" << std::endl << std::endl;
+	} else {
+		mapRentData[tempRow][tempCol].mapRow = tempRow;
+		mapRentData[tempRow][tempCol].mapCol = tempCol;
+		mapRentData[tempRow][tempCol].companyName = tempCompanyName;
+		mapRentData[tempRow][tempCol].companyType = tempCompanyType;
+		mapRentData[tempRow][tempCol].week = tempWeek;
+	}
 
 	return mapRentData;
 }
 
-// void OilRent::addRentData() {
+ void OilRent::addRentData() {
 
-//	mapRentData = addRentData(mapRentData);
+	mapRentData = addRentData(mapRentData);
 
-//}
+}
