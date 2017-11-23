@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include "OilRent.hpp"
+#define EMPTY NONE
 
 // default constructor without file input
 OilRent::OilRent() {
@@ -112,14 +113,24 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 // print function for map
 void OilRent::printOilMap() {
 
+	unsigned int unrentedMap = 0;
 	for (size_t i = 0; i < oilPotencyMap.size(); i++) {
 		for (size_t j = 0; j < oilPotencyMap[i].size(); j++) {
 
 			std::cout << oilPotencyMap[i][j] << "," << mapRentData[i][j].companyName << " ";
+			
+			if ( mapRentData[i][j].companyName == "NONE" ) {
+				
+				// increase unrented map if NONE is appear in company name
+				unrentedMap += 1;
+			}
 		
 		}
 		std::cout << std::endl;
 	}
+
+	std::cout << std::endl;
+	std::cout << "Jumlah area belum disewa : " << unrentedMap << std::endl << std::endl;
 
 }
 
@@ -158,8 +169,11 @@ void OilRent::printOilRent() {
 
 		} else if ( userInputRent == 1 ) {
 			
-			for (size_t i = 0; i < oilMapSize[0]; i++) {
-				for (size_t j = 0; j < oilMapSize[1]; j++) {
+			const unsigned int tempMapRow = oilMapSize[0];
+			const unsigned int tempMapCol = oilMapSize[1];
+			
+			for (size_t i = 0; i < tempMapRow; i++) {
+				for (size_t j = 0; j < tempMapCol; j++) {
 					if ( mapRentData[i][j].companyName != "NONE" ) {
 
 						std::cout << i << " " << j << " ";
@@ -192,8 +206,8 @@ void OilRent::saveOilInfo(std::string outputFileName) {
 	outputFile << oilRentSize << std::endl;
 
 	// save everything
-	unsigned int tempMapRow = oilMapSize[0];
-	unsigned int tempMapCol = oilMapSize[1];
+	const unsigned int tempMapRow = oilMapSize[0];
+	const unsigned int tempMapCol = oilMapSize[1];
 
 	for (size_t i = 0; i < tempMapRow; i++) {
 		for (size_t j = 0; j < tempMapCol; j++) {
@@ -209,3 +223,43 @@ void OilRent::saveOilInfo(std::string outputFileName) {
 		}
 	}
 }
+
+// for add data to mapRentData
+std::vector<std::vector<RentData>> OilRent::addRentData(std::vector<std::vector<RentData>> mapRentData) {
+
+	std::cout << std::endl;
+	std::cout << "-- Tambah Penyewaan --" << std::endl;
+	
+	// input from user
+	std::string tempCompanyName, tempCompanyType;
+	unsigned int tempWeek, tempRow, tempCol;
+	
+	std::cout << "> Masukkan nama perusahaan : ";
+	std::cin >> tempCompanyName;
+
+	std::cout << "> Masukkan jenis perusahaan : ";
+	std::cin >> tempCompanyType;
+
+	std::cout << "> Masukkan jangka waktu penyewaan : ";
+	std::cin >> tempWeek;
+
+	std::cout << "> Masukkan baris area : ";
+	std::cin >> tempRow;
+
+	std::cout << "> Masukkan kolom area : ";
+	std::cin >> tempCol;
+
+	// input to our mapRentData object
+	// first, check if the col and row whether it exist already
+	// if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
+	// 	std::cout << "DATA EXIST!!!" ;
+	// } 
+
+	return mapRentData;
+}
+
+// void OilRent::addRentData() {
+
+//	mapRentData = addRentData(mapRentData);
+
+//}

@@ -49,6 +49,7 @@ int main() {
 			EXIT = true;
 
 		} else if ( menuInput == 1) {
+			// "Load Data", 
 
 			// construct the OilRent class here
 			std::cout << "\nMasukkan nama file peta: ";
@@ -65,6 +66,7 @@ int main() {
 			
 		} else if ( menuInput == 2 ) {
 
+			// "Save Data", 
 			std::string outputFileName;
 			std::cout << "Nama File: ";
 			std::cin >> outputFileName;
@@ -73,13 +75,31 @@ int main() {
 		
 		} else if ( menuInput == 3 ) {
 
-			// print the data
+			// "Tampilkan Peta", 
 			tempOil.printOilMap();
 		
 		} else if ( menuInput == 4 ) {
 
+			// "Tampilkan Informasi Penyewaan", 
 			tempOil.printOilRent();
 			
+		} else if ( menuInput == 5 ) {
+
+			// "Tambah Penyewaan", 
+			tempOil.addRentData();
+
+		} else if ( menuInput == 6 ) {
+
+			// "Hapus Penyewaan",
+		} else if ( menuInput == 7 ) {
+
+			// "Ubah Tingkat Potensi Minyak", 
+		} else if ( menuInput == 8 ) {
+
+			// "Cari Informasi Penyewaan", 
+		} else if ( menuInput == 9 ) {
+			
+			// "Majukan Waktu"
 		} else {
 			std::cout << "Input Wrong!" << std::endl;
 		}

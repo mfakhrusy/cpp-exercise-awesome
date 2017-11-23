@@ -4,17 +4,6 @@
 
 class OilRent {
 
-	public:
-
-		// default constructor
-		OilRent();
-		// constructor
-		OilRent( std::string, std::string );
-
-		// method
-		void printOilMap();
-		void printOilRent();
-		void saveOilInfo(std::string);
 	private:
 
 		// struct
@@ -32,4 +21,18 @@ class OilRent {
 		unsigned int oilRentSize;
 
 		//misc function
+		RentData addRentData(std::vector<std::vector<RentData>>);
+
+	public:
+
+		// default constructor
+		OilRent();
+		// constructor
+		OilRent( std::string, std::string );
+
+		// method
+		void printOilMap();
+		void printOilRent();
+		void saveOilInfo(std::string);
+		void addRentData();
 };
