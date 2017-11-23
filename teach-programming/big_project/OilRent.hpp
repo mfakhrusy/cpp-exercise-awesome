@@ -21,12 +21,17 @@ class OilRent {
 		unsigned int oilRentSize;
 
 		//misc function
+		// the following function compute addition of rent data (private)
 		std::vector<std::vector<OilRent::RentData>> addRentData(std::vector<std::vector<OilRent::RentData>>);
+
+		// the following, do a deletion of data
+		std::vector<std::vector<OilRent::RentData>> deleteRentData(std::vector<std::vector<OilRent::RentData>>);
 
 	public:
 
 		// default constructor
 		OilRent();
+
 		// constructor
 		OilRent( std::string, std::string );
 
@@ -35,4 +40,6 @@ class OilRent {
 		void printOilRent();
 		void saveOilInfo(std::string);
 		void addRentData();
+		void deleteRentData();
+
 };

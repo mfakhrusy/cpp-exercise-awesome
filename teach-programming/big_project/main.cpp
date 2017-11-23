@@ -91,6 +91,8 @@ int main() {
 		} else if ( menuInput == 6 ) {
 
 			// "Hapus Penyewaan",
+			tempOil.deleteRentData();
+
 		} else if ( menuInput == 7 ) {
 
 			// "Ubah Tingkat Potensi Minyak", 

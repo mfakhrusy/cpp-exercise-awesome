@@ -110,6 +110,84 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 	inputFileStream.close();
 }
 
+// for add data to mapRentData
+std::vector<std::vector<OilRent::RentData>> OilRent::addRentData(std::vector<std::vector<OilRent::RentData>> mapRentData) {
+
+	std::cout << std::endl;
+	std::cout << "-- Tambah Penyewaan --" << std::endl;
+	
+	// input from user
+	std::string tempCompanyName, tempCompanyType;
+	unsigned int tempWeek, tempRow, tempCol;
+	
+	std::cout << "> Masukkan nama perusahaan : ";
+	std::cin >> tempCompanyName;
+
+	std::cout << "> Masukkan jenis perusahaan : ";
+	std::cin >> tempCompanyType;
+
+	std::cout << "> Masukkan jangka waktu penyewaan : ";
+	std::cin >> tempWeek;
+
+	std::cout << "> Masukkan baris area : ";
+	std::cin >> tempRow;
+
+	std::cout << "> Masukkan kolom area : ";
+	std::cin >> tempCol;
+
+	// input to our mapRentData object
+	// first, check if the col and row whether it exist already
+	if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
+
+		std::cout << "Penyewaan gagal! Area sudah disewa!" << std::endl << std::endl;
+
+	} else {
+
+		mapRentData[tempRow][tempCol].mapRow = tempRow;
+		mapRentData[tempRow][tempCol].mapCol = tempCol;
+		mapRentData[tempRow][tempCol].companyName = tempCompanyName;
+		mapRentData[tempRow][tempCol].companyType = tempCompanyType;
+		mapRentData[tempRow][tempCol].week = tempWeek;
+
+		std::cout << "Penyewaan berhasil!" << std::endl << std::endl << std::endl;
+
+	}
+
+	return mapRentData;
+}
+
+// deleteRentData implementation
+std::vector<std::vector<OilRent::RentData>> OilRent::deleteRentData(std::vector<std::vector<OilRent::RentData>> mapRentData) {
+	
+	std::cout << "-- Hapus Penyewaan --" << std::endl << std::endl;
+
+	unsigned int tempRow, tempCol;
+	std::cout << "Masukkan baris area : ";
+	std::cin >> tempRow;
+
+	std::cout << "Masukkan kolom area : ";
+	std::cin >> tempCol;
+
+	// delete according to tempRow and tempCol
+	// first, check if the col and row whether it exist already
+/*	if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
+
+		std::cout << "Penghapusan penyewaan gagal! Tidak ada penyewaan pada area ini" << std::endl << std::endl;
+
+	} else {
+
+		mapRentData[tempRow][tempCol].mapRow = 0;
+		mapRentData[tempRow][tempCol].mapCol = 0;
+		mapRentData[tempRow][tempCol].companyName = "NONE";
+		mapRentData[tempRow][tempCol].companyType = "NONE";
+		mapRentData[tempRow][tempCol].week = 0;
+
+		std::cout << "Penyewaan berhasil!" << std::endl << std::end << std::endl;
+
+	}
+*/
+	return mapRentData;
+}
 // print function for map
 void OilRent::printOilMap() {
 
@@ -224,48 +302,17 @@ void OilRent::saveOilInfo(std::string outputFileName) {
 	}
 }
 
-// for add data to mapRentData
-std::vector<std::vector<OilRent::RentData>> OilRent::addRentData(std::vector<std::vector<OilRent::RentData>> mapRentData) {
 
-	std::cout << std::endl;
-	std::cout << "-- Tambah Penyewaan --" << std::endl;
-	
-	// input from user
-	std::string tempCompanyName, tempCompanyType;
-	unsigned int tempWeek, tempRow, tempCol;
-	
-	std::cout << "> Masukkan nama perusahaan : ";
-	std::cin >> tempCompanyName;
-
-	std::cout << "> Masukkan jenis perusahaan : ";
-	std::cin >> tempCompanyType;
-
-	std::cout << "> Masukkan jangka waktu penyewaan : ";
-	std::cin >> tempWeek;
-
-	std::cout << "> Masukkan baris area : ";
-	std::cin >> tempRow;
-
-	std::cout << "> Masukkan kolom area : ";
-	std::cin >> tempCol;
-
-	// input to our mapRentData object
-	// first, check if the col and row whether it exist already
-	if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
-		std::cout << "Penyewaan gagal! Area sudah disewa!" << std::endl << std::endl;
-	} else {
-		mapRentData[tempRow][tempCol].mapRow = tempRow;
-		mapRentData[tempRow][tempCol].mapCol = tempCol;
-		mapRentData[tempRow][tempCol].companyName = tempCompanyName;
-		mapRentData[tempRow][tempCol].companyType = tempCompanyType;
-		mapRentData[tempRow][tempCol].week = tempWeek;
-	}
-
-	return mapRentData;
-}
-
- void OilRent::addRentData() {
+// the public version of addRentData (this one get into main)
+void OilRent::addRentData() {
 
 	mapRentData = addRentData(mapRentData);
+
+}
+
+// delete data
+void OilRent::deleteRentData() {
+
+	mapRentData = deleteRentData(mapRentData);
 
 }
