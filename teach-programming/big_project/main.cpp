@@ -64,12 +64,17 @@ int main() {
 			tempOil = oil;
 			
 		} else if ( menuInput == 2 ) {
+
+			std::string outputFileName;
+			std::cout << "Nama File: ";
+			std::cin >> outputFileName;
+
+			tempOil.saveOilInfo(outputFileName);
 		
 		} else if ( menuInput == 3 ) {
 
 			// print the data
 			tempOil.printOilMap();
-		
 		
 		} else if ( menuInput == 4 ) {
 

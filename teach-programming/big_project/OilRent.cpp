@@ -37,7 +37,13 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 			mapRentData[i].resize(oilMapCol);
 		}
 
-
+		// initialize mapRentData.companyName and companyType with NONE
+		for (size_t i = 0; i < mapRentData.size(); i++) {
+			for (size_t j = 0; j < mapRentData[i].size(); j++) {
+				mapRentData[i][j].companyName = "NONE";
+				mapRentData[i][j].companyType = "NONE";
+			}
+		}
 
 		// read the oil potency map
 		for (size_t i = 0; i < oilMapRow; i++) {
@@ -59,6 +65,7 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 
 				j++;
 			}
+
 			// for last instance
 			oilPotencyMap[i][j] = std::stoi(oilPotencyLine);
 
@@ -72,7 +79,7 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 	// PROCESS RENT INFORMATION
 	inputFileStream.open(rentFileName);
 	if ( inputFileStream.is_open() ) {
-		
+
 		std::string oilRentSizeString;
 		std::getline(inputFileStream, oilRentSizeString);
 		oilRentSize = std::stoi(oilRentSizeString);
@@ -81,8 +88,17 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 		for (size_t i = 0; i < oilRentSize; i++) {
 			std::string mapDataString;
 			std::getline(inputFileStream, mapDataString);
-			
 			std::istringstream issRentData(mapDataString);
+
+			unsigned int tempRow, tempCol, tempWeek;
+			std::string tempCompanyName, tempCompanyType;
+			issRentData >> tempRow >> tempCol >> tempCompanyName >> tempCompanyType >> tempWeek;
+
+			mapRentData[tempRow][tempCol].mapRow = tempRow;
+			mapRentData[tempRow][tempCol].mapCol = tempCol;
+			mapRentData[tempRow][tempCol].companyName = tempCompanyName;
+			mapRentData[tempRow][tempCol].companyType = tempCompanyType;
+			mapRentData[tempRow][tempCol].week = tempWeek;
 
 		}
 
@@ -99,7 +115,7 @@ void OilRent::printOilMap() {
 	for (size_t i = 0; i < oilPotencyMap.size(); i++) {
 		for (size_t j = 0; j < oilPotencyMap[i].size(); j++) {
 
-			std::cout << oilPotencyMap[i][j] << " ";
+			std::cout << oilPotencyMap[i][j] << "," << mapRentData[i][j].companyName << " ";
 		
 		}
 		std::cout << std::endl;
@@ -117,19 +133,79 @@ void OilRent::printOilRent() {
 		"Tingkat Potensi Minyak"
 	};
 
-	std::cout << "-- Tampilkan Informasi Penyewaan --";
-	std::cout << std::endl << std::endl;
-	std::cout << "Terurut Berdasarkan:";
-	std::cout << std::endl;
+	bool EXITOPTION4 = false;
 
-	for (size_t i = 1; i < INFOCOUNT; i++) {
-		std::cout << i << ".\t" << infoOilRent[i] << std::endl;
+	while (!EXITOPTION4) {
+		
+		std::cout << "-- Tampilkan Informasi Penyewaan --";
+		std::cout << std::endl << std::endl;
+		std::cout << "Terurut Berdasarkan:";
+		std::cout << std::endl;
+
+		for (size_t i = 1; i < INFOCOUNT; i++) {
+			std::cout << i << ".\t" << infoOilRent[i] << std::endl;
+		}
+		std::cout << "0.\t" << infoOilRent[0] << std::endl;
+
+		// input from user
+		unsigned int userInputRent;
+		std::cout << "Pilihan : ";
+		std::cin >> userInputRent;
+		
+		if ( userInputRent == 0) {
+
+			EXITOPTION4 = true;
+
+		} else if ( userInputRent == 1 ) {
+			
+			for (size_t i = 0; i < oilMapSize[0]; i++) {
+				for (size_t j = 0; j < oilMapSize[1]; j++) {
+					if ( mapRentData[i][j].companyName != "NONE" ) {
+
+						std::cout << i << " " << j << " ";
+						std::cout << mapRentData[i][j].companyName << " ";
+						std::cout << mapRentData[i][j].companyType << " ";
+						std::cout << mapRentData[i][j].week << " ";
+						std::cout << oilPotencyMap[i][j] << std::endl;
+						
+					}
+				}
+			}
+		
+		} else if ( userInputRent == 2 ) {
+
+		} else if ( userInputRent == 3 ) {
+
+		} else {
+			std::cout << "Input Wrong!" << std::endl;
+		}
+
 	}
-	std::cout << "0.\t" << infoOilRent[0] << std::endl;
+}
 
-	// input from user
-	int userInputRent;
-	std::cout << "Pilihan : ";
-	std::cin >> userInputRent;
+// save function
+void OilRent::saveOilInfo(std::string outputFileName) {
 
+	std::ofstream outputFile(outputFileName);
+
+	// save how many rent
+	outputFile << oilRentSize << std::endl;
+
+	// save everything
+	unsigned int tempMapRow = oilMapSize[0];
+	unsigned int tempMapCol = oilMapSize[1];
+
+	for (size_t i = 0; i < tempMapRow; i++) {
+		for (size_t j = 0; j < tempMapCol; j++) {
+			if ( mapRentData[i][j].companyName != "NONE" ) {
+
+				outputFile << i << " " << j << " ";
+				outputFile << mapRentData[i][j].companyName << " ";
+				outputFile << mapRentData[i][j].companyType << " ";
+				outputFile << mapRentData[i][j].week << " ";
+				outputFile << oilPotencyMap[i][j] << std::endl;
+
+			}
+		}
+	}
 }
