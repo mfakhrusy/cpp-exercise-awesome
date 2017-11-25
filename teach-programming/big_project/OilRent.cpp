@@ -169,7 +169,7 @@ std::vector<std::vector<OilRent::RentData>> OilRent::deleteRentData(std::vector<
 
 	// delete according to tempRow and tempCol
 	// first, check if the col and row whether it exist already
-	if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
+	if ( mapRentData[tempRow][tempCol].companyName == "NONE" ) {
 
 		std::cout << "Penghapusan penyewaan gagal! Tidak ada penyewaan pada area ini" << std::endl << std::endl;
 
@@ -181,7 +181,7 @@ std::vector<std::vector<OilRent::RentData>> OilRent::deleteRentData(std::vector<
 		mapRentData[tempRow][tempCol].companyType = "NONE";
 		mapRentData[tempRow][tempCol].yearLeft= 0;
 
-		std::cout << "Penyewaan berhasil!" << std::endl << std::endl << std::endl;
+		std::cout << "Penghapusan berhasil!" << std::endl << std::endl << std::endl;
 
 	}
 
@@ -281,6 +281,7 @@ void OilRent::printOilRent() {
 
 	bool EXIT_OPTION_4 = false;
 
+	unsigned int countArea = 0;
 	while (!EXIT_OPTION_4) {
 		
 		std::cout << "-- Tampilkan Informasi Penyewaan --";
@@ -307,9 +308,25 @@ void OilRent::printOilRent() {
 			const unsigned int tempMapRow = oilMapSize[0];
 			const unsigned int tempMapCol = oilMapSize[1];
 			
+			std::vector<int> tempRow;
+			std::vector<int> tempCol;
+			std::string tempString = "";
+			
 			for (size_t i = 0; i < tempMapRow; i++) {
 				for (size_t j = 0; j < tempMapCol; j++) {
 					if ( mapRentData[i][j].companyName != "NONE" ) {
+
+						// add countArea by 1
+						countArea++;
+
+						// sort
+						for (size_t k = 0; k < countArea; k++) {
+							if ( mapRentData[i][j].companyName > tempString ) {
+								tempRow.push_back(i);
+								tempCol.push_back(j);
+							
+							}
+						}
 
 						printData(i, j);
 						std::cout << std::endl;
@@ -355,7 +372,6 @@ void OilRent::saveOilInfo(std::string outputFileName) {
 		}
 	}
 }
-
 
 // the public version of addRentData (this one get into main)
 void OilRent::addRentData() {
@@ -539,7 +555,7 @@ void OilRent::increaseYear() {
 				// check if the difference of year is zero or less, then delete the rent info
 				// if not, just decrease the yearLeft value of mapRentData
 				int diff = static_cast<int>(mapRentData[i][j].yearLeft) - static_cast<int>(tempAddYear);
-				if ( diff > 0) {
+				if ( diff > 0 ) {
 					mapRentData[i][j].yearLeft = static_cast<unsigned int>(diff);
 				} else {
 
