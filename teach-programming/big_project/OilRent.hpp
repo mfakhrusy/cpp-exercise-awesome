@@ -12,11 +12,11 @@ class OilRent {
 			unsigned int mapCol;
 			std::string companyName;
 		 	std::string companyType;
-			unsigned int week;
+			unsigned int yearLeft;
 		};
 
 		std::vector<std::vector<RentData>> mapRentData;
-		std::vector<std::vector<int>> oilPotencyMap;
+		std::vector<std::vector<unsigned int>> oilPotencyMap;
 		std::array<int, 2> oilMapSize;
 		unsigned int oilRentSize;
 
@@ -26,6 +26,14 @@ class OilRent {
 
 		// the following, do a deletion of data
 		std::vector<std::vector<OilRent::RentData>> deleteRentData(std::vector<std::vector<OilRent::RentData>>);
+
+		// alteration of oilPotencyMap
+		std::vector<std::vector<unsigned int>> changeOilPotency(std::vector<std::vector<unsigned int>>);
+
+		void printData(unsigned int, unsigned int);
+
+		// print detailed area
+		void printDetailArea(unsigned int, unsigned int, unsigned int);
 
 	public:
 
@@ -41,5 +49,8 @@ class OilRent {
 		void saveOilInfo(std::string);
 		void addRentData();
 		void deleteRentData();
+		void changeOilPotency();
+		void findOilRent();
+		void increaseYear();
 
 };

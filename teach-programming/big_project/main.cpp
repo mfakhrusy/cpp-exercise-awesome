@@ -96,12 +96,18 @@ int main() {
 		} else if ( menuInput == 7 ) {
 
 			// "Ubah Tingkat Potensi Minyak", 
+			tempOil.changeOilPotency();
+
 		} else if ( menuInput == 8 ) {
 
 			// "Cari Informasi Penyewaan", 
+			tempOil.findOilRent();
+
 		} else if ( menuInput == 9 ) {
 			
 			// "Majukan Waktu"
+			tempOil.increaseYear();
+
 		} else {
 			std::cout << "Input Wrong!" << std::endl;
 		}
