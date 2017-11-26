@@ -15,13 +15,17 @@ class OilRent {
 			unsigned int yearLeft;
 		};
 
+		static const unsigned int OIL_PRICE_PER_POTENCY = 10000;
+		static const double DISCOUNT_FACTOR = 0.5;
+
 		std::vector<RentData> companyRentData;
 		std::vector<std::vector<RentData>> mapRentData;
 		std::vector<std::vector<unsigned int>> oilPotencyMap;
+		std::vector<std::vector<unsigned int>> oilPriceMap;
 		std::array<int, 2> oilMapSize;
 		unsigned int oilRentSize;
 
-		//misc function
+		// misc function
 		// the following function compute addition of rent data (private)
 		std::vector<std::vector<OilRent::RentData>> addRentData(std::vector<std::vector<OilRent::RentData>>);
 
@@ -47,7 +51,7 @@ class OilRent {
 		// method
 		void printOilMap();
 		void printOilRent();
-		void saveOilInfo(std::string);
+		void saveOilInfo( std::string );
 		void addRentData();
 		void deleteRentData();
 		void changeOilPotency();
