@@ -15,8 +15,8 @@ class OilRent {
 			unsigned int yearLeft;
 		};
 
-		static const unsigned int OIL_PRICE_PER_POTENCY = 10000;
-		static const double DISCOUNT_FACTOR = 0.5;
+		unsigned int OIL_PRICE_PER_POTENCY = 10000;
+		double DISCOUNT_FACTOR = 0.5;
 
 		std::vector<RentData> companyRentData;
 		std::vector<std::vector<RentData>> mapRentData;

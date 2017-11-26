@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 #include "OilRent.hpp"
 
 // default constructor without file input
@@ -18,7 +19,15 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 	std::ifstream inputFileStream;
 	inputFileStream.open(oilFileName);
 
+	// to check all file is opened succesfully
+	// if it is there, counter should have a value of 2
+	// one of each file
+	int fileCounter = 0;
+
 	if ( inputFileStream.is_open() ) {
+
+		// add the counter
+		fileCounter++;
 
 		// first, add the size of oilMap fron firstLine
 		std::string oilMapSizeString;
@@ -82,7 +91,7 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 		}
 
 	} else {
-		std::cout << "Input filenameMap Wrong!" << std::endl;
+		std::cout << "Nama file potensi minyak tidak ditemukan!" << std::endl;
 	}
 
 	inputFileStream.close();
@@ -90,6 +99,9 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 	// PROCESS RENT INFORMATION
 	inputFileStream.open(rentFileName);
 	if ( inputFileStream.is_open() ) {
+
+		// add the counter
+		fileCounter++;
 
 		std::string oilRentSizeString;
 		std::getline(inputFileStream, oilRentSizeString);
@@ -114,10 +126,15 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 		}
 
 	} else {
-		std::cout << "Input filenameRent wrong!" << std::endl;
+		std::cout << "Nama file data sewa tidak ditemukan!" << std::endl;
 	}
 
 	inputFileStream.close();
+
+	// confirm the user that every file is opened successfully
+	if ( fileCounter == 2) {
+		std::cout << "Kedua file berhasil dibuka!" << std::endl << std::endl;
+	}
 }
 
 // for add data to mapRentData
@@ -144,12 +161,14 @@ std::vector<std::vector<OilRent::RentData>> OilRent::addRentData(std::vector<std
 
 	std::cout << "> Masukkan kolom area : ";
 	std::cin >> tempCol;
+	std::cout << std::endl;
 
 	// input to our mapRentData object
 	// first, check if the col and row whether it exist already
 	if ( mapRentData[tempRow][tempCol].companyName != "NONE" ) {
 
-		std::cout << "Penyewaan gagal! Area sudah disewa!" << std::endl << std::endl;
+		std::cout << "Penyewaan gagal! Area sudah disewa!";
+		std::cout << std::endl << std::endl;
 
 	} else {
 
@@ -159,7 +178,8 @@ std::vector<std::vector<OilRent::RentData>> OilRent::addRentData(std::vector<std
 		mapRentData[tempRow][tempCol].companyType = tempCompanyType;
 		mapRentData[tempRow][tempCol].yearLeft = tempYear;
 
-		std::cout << "Penyewaan berhasil!" << std::endl << std::endl << std::endl;
+		std::cout << "Penyewaan berhasil!";
+		std::cout << std::endl << std::endl;
 
 	}
 
@@ -252,25 +272,57 @@ void OilRent::printDetailArea(unsigned int counter, unsigned int row, unsigned i
 
 	std::cout << "Sisa Jangka Waktu Penyewaan : " << mapRentData[row][col].yearLeft;
 	std::cout << std::endl;
-	std::cout << std::endl;
+	
+	std::cout << "Harga : ";
+	if (mapRentData[row][col].companyType == "Swasta") {
+		std::cout << oilPriceMap[row][col];
+	} else { // negara
+		std::cout << oilPriceMap[row][col] - oilPriceMap[row][col] * DISCOUNT_FACTOR;
+	}
+	std::cout << std::endl << std::endl;
 
 }
 
 // print function for map
 void OilRent::printOilMap() {
 
-	unsigned int unrentedMap = 0;
-	for (size_t i = 0; i < oilPotencyMap.size(); i++) {
-		for (size_t j = 0; j < oilPotencyMap[i].size(); j++) {
+	// check each column max company name size
+	const unsigned int tempMapRow = oilMapSize[0];
+	const unsigned int tempMapCol = oilMapSize[1];
+	std::vector<unsigned int> maxNameSizeCol(tempMapCol);
 
-			std::cout << oilPotencyMap[i][j] << "," << mapRentData[i][j].companyName << " ";
-			
-			if ( mapRentData[i][j].companyName == "NONE" ) {
-				
-				// increase unrented map if NONE is appear in company name
-				unrentedMap += 1;
+	for (size_t j = 0; j < tempMapCol; j++) {
+		for (size_t i = 0; i < tempMapRow; i++) {
+
+			std::string tempString = mapRentData[i][j].companyName;
+
+			if (tempString.size() > maxNameSizeCol[j]) {
+				// tempSize = tempString.size();
+				maxNameSizeCol[j] = tempString.size();
 			}
-		
+		}
+	}
+
+	// save the value of unrented map
+	// increase the variable if companyName == "NONE"
+	// because it means no company currently owns it
+	unsigned int unrentedMap = 0;
+	
+	std::cout << std::endl;
+	for (size_t i = 0; i < tempMapRow; i++) {
+		for (size_t j = 0; j < tempMapCol; j++) {
+
+			// std::cout << std::left;
+			std::cout << oilPotencyMap[i][j] << ",";
+			std::cout << std::setw(maxNameSizeCol[j] + 1);
+			std::cout << std::left << mapRentData[i][j].companyName;
+			
+			// increase unrented map if NONE is appear in company name
+			if (mapRentData[i][j].companyName == "NONE") {
+				
+				unrentedMap++;
+
+			}
 		}
 		std::cout << std::endl;
 	}
@@ -294,6 +346,7 @@ void OilRent::printOilRent() {
 
 	while (!EXIT_OPTION_4) {
 		
+		std::cout << std::endl;
 		std::cout << "-- Tampilkan Informasi Penyewaan --";
 		std::cout << std::endl << std::endl;
 		std::cout << "Terurut Berdasarkan : ";
@@ -305,18 +358,20 @@ void OilRent::printOilRent() {
 		std::cout << "0.\t" << infoOilRent[0] << std::endl;
 
 		// input from user
-		unsigned int userInputRent;
-		std::cout << "Pilihan : ";
+		std::string userInputRent;
+		std::cout << std::endl;
+		std::cout << "> Pilihan : ";
 		std::cin >> userInputRent;
+		std::cout << std::endl;
 		
 		const unsigned int tempMapRow = oilMapSize[0];
 		const unsigned int tempMapCol = oilMapSize[1];
 		
-		if ( userInputRent == 0) {
+		if (userInputRent == "0") {
 
 			EXIT_OPTION_4 = true;
 
-		} else if ( userInputRent == 1 ) {
+		} else if (userInputRent == "1") {
 			
 			std::vector<OilRent::RentData> tempData;
 			
@@ -357,13 +412,13 @@ void OilRent::printOilRent() {
 
 			}
 
-		} else if ( userInputRent == 2 ) {
+		} else if (userInputRent == "2") {
 
 			std::vector<OilRent::RentData> tempData;
 			
 			for (size_t i = 0; i < tempMapRow; i++) {
 				for (size_t j = 0; j < tempMapCol; j++) {
-					if ( mapRentData[i][j].companyName != "NONE" ) {
+					if (mapRentData[i][j].companyName != "NONE") {
 
 						// add to tempData
 						tempData.push_back(mapRentData[i][j]);
@@ -398,7 +453,7 @@ void OilRent::printOilRent() {
 
 			}
 
-		} else if ( userInputRent == 3 ) {
+		} else if (userInputRent == "3") {
 
 			std::vector<OilRent::RentData> tempData;
 			
@@ -447,7 +502,8 @@ void OilRent::printOilRent() {
 
 			}
 		} else {
-			std::cout << "Input Wrong!" << std::endl;
+			std::cout << "Input salah!";
+			std::cout << std::endl;
 		}
 	}
 }
@@ -464,19 +520,28 @@ void OilRent::saveOilInfo(std::string outputFileName) {
 	const unsigned int tempMapRow = oilMapSize[0];
 	const unsigned int tempMapCol = oilMapSize[1];
 
-	for (size_t i = 0; i < tempMapRow; i++) {
-		for (size_t j = 0; j < tempMapCol; j++) {
-			if ( mapRentData[i][j].companyName != "NONE" ) {
+	if (outputFile.is_open()) {
+		for (size_t i = 0; i < tempMapRow; i++) {
+			for (size_t j = 0; j < tempMapCol; j++) {
+				if ( mapRentData[i][j].companyName != "NONE" ) {
 
-				outputFile << mapRentData[i][j].mapRow << " ";
-				outputFile << mapRentData[i][j].mapRow << " ";
-				outputFile << mapRentData[i][j].companyName << " ";
-				outputFile << mapRentData[i][j].companyType << " ";
-				outputFile << mapRentData[i][j].yearLeft<< " ";
-				outputFile << oilPotencyMap[i][j] << std::endl;
+					outputFile << mapRentData[i][j].mapRow << " ";
+					outputFile << mapRentData[i][j].mapRow << " ";
+					outputFile << mapRentData[i][j].companyName << " ";
+					outputFile << mapRentData[i][j].companyType << " ";
+					outputFile << mapRentData[i][j].yearLeft<< " ";
+					outputFile << oilPotencyMap[i][j] << std::endl;
 
+				}
 			}
 		}
+
+		std::cout << "Penyimpanan berhasil dengan nama file : " << outputFileName;
+		std::cout << std::endl;
+	} else {
+		std::cout << std::endl;
+		std::cout << "File tidak bisa disimpan!";
+		std::cout << std::endl;
 	}
 }
 
@@ -508,14 +573,13 @@ void OilRent::findOilRent() {
 		"Kembali ke Menu Utama",
 		"Nama Perusahaan",
 		"Posisi Area"
-//		"Tingkat Potensi Minyak"
 	};
 
 	bool EXIT_OPTION_8 = false;
 
 	// define temp oil map size
-	unsigned int tempOilRow = oilMapSize[0];
-	unsigned int tempOilCol = oilMapSize[1];
+	unsigned int oilMapRow = oilMapSize[0];
+	unsigned int oilMapCol = oilMapSize[1];
 
 	while (!EXIT_OPTION_8) {
 		
@@ -530,26 +594,28 @@ void OilRent::findOilRent() {
 		std::cout << "0.\t" << infoOilRent[0] << std::endl;
 
 		// input from user
-		unsigned int userInputRent;
-		std::cout << "Pilihan : ";
+		std::string userInputRent;
+		std::cout << std::endl;
+		std::cout << "> Pilihan : ";
 		std::cin >> userInputRent;
+		std::cout << std::endl;
 		
 		// find the vector where dwells the input of user
 		
 		unsigned int countArea = 0;
-		if ( userInputRent == 0) {
+		if (userInputRent == "0") {
 
 			EXIT_OPTION_8 = true;
 
-		} else if ( userInputRent == 1 ) {
+		} else if (userInputRent == "1") {
 
 			std::string inputCompanyName;
 			std::cout << "Masukkan nama perusahaan : ";
 			std::cin >> inputCompanyName;
 			std::cout << std::endl;
 		
-			for (size_t i = 0; i < tempOilRow; i++) {
-				for (size_t j = 0; j < tempOilCol; j++) {
+			for (size_t i = 0; i < oilMapRow; i++) {
+				for (size_t j = 0; j < oilMapCol; j++) {
 					if ( mapRentData[i][j].companyName == inputCompanyName ) {
 
 						// add countArea by 1
@@ -571,7 +637,7 @@ void OilRent::findOilRent() {
 			
 			}
 
-		} else if ( userInputRent == 2 ) {
+		} else if (userInputRent == "2") {
 
 			unsigned int inputRow, inputCol;
 			std::cout << "Masukkan baris area : ";
@@ -580,8 +646,14 @@ void OilRent::findOilRent() {
 			std::cout << "Masukkan kolom area : ";
 			std::cin >> inputCol;
 
-			for (size_t i = 0; i < tempOilRow; i++) {
-				for (size_t j = 0; j < tempOilCol; j++) {
+			if (inputRow > oilMapRow || inputCol > oilMapCol) {
+				std::cout << std::endl;
+				std::cout << "Lahan tersebut tidak tersedia, silahkan ulangi kembali!";
+				std::cout << std::endl;
+			}
+
+			for (size_t i = 0; i < oilMapRow; i++) {
+				for (size_t j = 0; j < oilMapCol; j++) {
 					if ( i == inputRow && j == inputCol && mapRentData[i][j].companyName != "NONE" ) {
 
 						// add countArea by 1
@@ -606,7 +678,8 @@ void OilRent::findOilRent() {
 
 		} else {
 
-			std::cout << "Input Wrong!" << std::endl;
+			std::cout << "Input salah!";
+			std::cout << std::endl << std::endl;
 
 		}
 
@@ -634,6 +707,7 @@ void OilRent::increaseYear() {
 
 				// check if the difference of year is zero or less, then delete the rent info
 				// if not, just decrease the yearLeft value of mapRentData
+				// need to cast to int because unsigned int can't be negative
 				int diff = static_cast<int>(mapRentData[i][j].yearLeft) - static_cast<int>(tempAddYear);
 				if ( diff > 0 ) {
 					mapRentData[i][j].yearLeft = static_cast<unsigned int>(diff);

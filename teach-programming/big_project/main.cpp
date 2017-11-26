@@ -37,84 +37,89 @@ int main() {
 		}
 		std::cout << "0.\t" << menuChoice[0] << std::endl;
 		
-		int menuInput = 0;
-		std::cout << "Pilihan : ";
+		std::string menuInput;
+		std::cout << std::endl;
+		std::cout << "> Pilihan : ";
 		std::cin >> menuInput;
-		std::string mapFileName;
-		std::string rentFileName;
+		std::string mapFileName, rentFileName;
 
-		if ( menuInput == 0 ) {
+		if (menuInput == "0") {
 		
 			// case 0 -> exit, change EXIT into true and break the loop
+			std::cout << "Program keluar..." << std::endl;
 			EXIT = true;
 
-		} else if ( menuInput == 1) {
+		} else if ( menuInput == "1") {
 			// "Load Data", 
 
-			// construct the OilRent class here
-			std::cout << "\nMasukkan nama file peta: ";
+			std::cout << std::endl;
+			std::cout << "> Masukkan nama file peta : ";
 			std::cin >> mapFileName;
 
-			std::cout << "\nMasukkan nama file data sewa: ";
+			std::cout << "> Masukkan nama file data sewa : ";
 			std::cin >> rentFileName;
+			std::cout << std::endl;
 
+			// construct the OilRent class here
 			// call constructor
 			OilRent oil(mapFileName, rentFileName);
 			
-			// copy constructor to tempOil;
+			// copy object oil to tempOil so we can change it with another command
+			// If it's not copied to tempOil, the oil will gone when the while loop
+			// continues
 			tempOil = oil;
-			
-		} else if ( menuInput == 2 ) {
 
-			// "Save Data", 
+		} else if (menuInput == "2") {
+
+			// "Save Data" 
 			std::string outputFileName;
-			std::cout << "Nama File: ";
+			std::cout << "> Nama File : ";
 			std::cin >> outputFileName;
+			std::cout << std::endl;
 
 			tempOil.saveOilInfo(outputFileName);
 		
-		} else if ( menuInput == 3 ) {
+		} else if (menuInput == "3") {
 
 			// "Tampilkan Peta", 
 			tempOil.printOilMap();
 		
-		} else if ( menuInput == 4 ) {
+		} else if (menuInput == "4") {
 
 			// "Tampilkan Informasi Penyewaan", 
 			tempOil.printOilRent();
 			
-		} else if ( menuInput == 5 ) {
+		} else if (menuInput == "5") {
 
 			// "Tambah Penyewaan", 
 			tempOil.addRentData();
 
-		} else if ( menuInput == 6 ) {
+		} else if (menuInput == "6") {
 
 			// "Hapus Penyewaan",
 			tempOil.deleteRentData();
 
-		} else if ( menuInput == 7 ) {
+		} else if (menuInput == "7") {
 
 			// "Ubah Tingkat Potensi Minyak", 
 			tempOil.changeOilPotency();
 
-		} else if ( menuInput == 8 ) {
+		} else if (menuInput == "8") {
 
 			// "Cari Informasi Penyewaan", 
 			tempOil.findOilRent();
 
-		} else if ( menuInput == 9 ) {
+		} else if (menuInput == "9") {
 			
 			// "Majukan Waktu"
 			tempOil.increaseYear();
 
 		} else {
-			std::cout << "Input Wrong!" << std::endl;
+			std::cout << std::endl;
+			std::cout << "Input salah!";
+			std::cout << std::endl << std::endl;
 		}
 	}
 
 	return 0;
 }
-
-// recursive input function
-
