@@ -15,6 +15,7 @@ class OilRent {
 			unsigned int yearLeft;
 		};
 
+		std::vector<RentData> companyRentData;
 		std::vector<std::vector<RentData>> mapRentData;
 		std::vector<std::vector<unsigned int>> oilPotencyMap;
 		std::array<int, 2> oilMapSize;
