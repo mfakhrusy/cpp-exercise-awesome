@@ -54,7 +54,6 @@ std::vector<int> strToVector(std::string stringValue, int vectorSize) {
 	}
 
 	return result;
-
 }
 
 int calcFruit(int treeLocation, int fruitNumber, int houseInit, int houseFinal, 

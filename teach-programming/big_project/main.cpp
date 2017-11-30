@@ -83,7 +83,7 @@ int main() {
 
 			// "Tampilkan Peta", 
 			tempOil.printOilMap();
-		
+
 		} else if (menuInput == "4") {
 
 			// "Tampilkan Informasi Penyewaan", 
