@@ -123,6 +123,7 @@ OilRent::OilRent( std::string oilFileName, std::string rentFileName ) {
 			mapRentData[tempRow][tempCol].companyType = tempCompanyType;
 			mapRentData[tempRow][tempCol].yearLeft = tempYear;
 
+			//std::cout << mapRentData[tempRow][tempCol].companyName << " " << mapRentData[tempRow][tempCol].mapCol << std::endl;
 		}
 
 	} else {
@@ -526,7 +527,7 @@ void OilRent::saveOilInfo(std::string outputFileName) {
 				if ( mapRentData[i][j].companyName != "NONE" ) {
 
 					outputFile << mapRentData[i][j].mapRow << " ";
-					outputFile << mapRentData[i][j].mapRow << " ";
+					outputFile << mapRentData[i][j].mapCol << " ";
 					outputFile << mapRentData[i][j].companyName << " ";
 					outputFile << mapRentData[i][j].companyType << " ";
 					outputFile << mapRentData[i][j].yearLeft<< " ";

@@ -1,0 +1,13 @@
+[
+    {
+        "arguments": [
+            "cc", 
+            "-c", 
+            "-o", 
+            "linkedlist1", 
+            "linkedlist1.c"
+        ], 
+        "directory": "/home/mfakhrusy/Project/cpp-exercise-project/learn-data-structure/linked-list", 
+        "file": "linkedlist1.c"
+    }
+]
